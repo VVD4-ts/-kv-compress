@@ -1,0 +1,18 @@
+{
+  "n_tokens": 100000,
+  "window": 1024,
+  "stride": 512,
+  "results": {
+    "Baseline": 38.422,
+    "StreamingLLM(sink=4,W=64)": 232.691,
+    "StreamingLLM(sink=4,W=128)": 259.998,
+    "StreamingLLM(sink=4,W=256)": 282.919,
+    "StreamingLLM(sink=4,W=512)": 264.703,
+    "CEPE(r=64,p=8)": 275.438,
+    "CEPE(r=128,p=8)": 303.565,
+    "CEPE(r=256,p=8)": 327.688,
+    "CEPE(r=512,p=8)": 272.811,
+    "CEPE(r=128,p=4)": 300.502,
+    "CEPE(r=256,p=4)": 329.904
+  }
+}

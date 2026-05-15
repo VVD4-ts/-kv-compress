@@ -23,6 +23,8 @@ class GenerationResult:
     kv_size_mb:         float    # final KV cache footprint
     total_gflops:       float = 0.0   # theoretical total FLOPs (analytical)
     avg_gflops_per_tok: float = 0.0   # total_gflops / (prompt_len + num_generated)
+    n_proposed:         int   = 0     # speculative decoding: total proposed tokens
+    n_accepted:         int   = 0     # speculative decoding: total accepted tokens
 
     def speedup_vs(self, baseline: "GenerationResult") -> float:
         if self.tpot_ms == 0:
@@ -124,6 +126,8 @@ def make_result(
     ttft_ms: float,
     past_kv,
     total_gflops: float = 0.0,
+    n_proposed: int = 0,
+    n_accepted: int = 0,
 ) -> GenerationResult:
     num_gen    = len(token_ids) - prompt_len
     decode_ms  = total_ms - ttft_ms
@@ -142,4 +146,6 @@ def make_result(
         kv_size_mb=kv_size_mb(past_kv),
         total_gflops=total_gflops,
         avg_gflops_per_tok=avg_gflops,
+        n_proposed=n_proposed,
+        n_accepted=n_accepted,
     )

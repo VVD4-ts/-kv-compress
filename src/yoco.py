@@ -18,14 +18,18 @@ def yoco_generate(
     prompt:         str,
     max_new_tokens: int   = 128,
     split_ratio:    float = 0.5,
+    split_idx:      int   = None,   # explicit layer index; overrides split_ratio
     device:         str   = "cuda",
 ) -> GenerationResult:
     input_ids  = tokenizer(prompt, return_tensors="pt").input_ids.to(device)
     prompt_len = input_ids.shape[1]
     eos_id     = tokenizer.eos_token_id
 
-    n         = num_layers(model)
-    split_idx = max(1, min(n - 1, round(n * split_ratio)))
+    n = num_layers(model)
+    if split_idx is None:
+        split_idx = max(1, min(n - 1, round(n * split_ratio)))
+    else:
+        split_idx = max(1, min(n - 1, split_idx))
 
     total_timer = WallTimer().start()
 

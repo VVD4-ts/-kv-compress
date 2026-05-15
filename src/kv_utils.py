@@ -100,6 +100,40 @@ def _build(original_past_kv, keys: List[torch.Tensor], vals: List[torch.Tensor])
     return tuple(zip(keys, vals))
 
 
+# ── Cache length / trim helpers ──────────────────────────────────────────────
+
+def kv_cache_length(past_kv) -> int:
+    """Return the current sequence length stored in the KV cache."""
+    if past_kv is None:
+        return 0
+    k, _ = _get_kv(past_kv, 0)
+    return k.shape[2]
+
+
+def trim_kv_cache(past_kv, target_len: int):
+    """
+    Truncate the KV cache to keep only positions [0 : target_len].
+
+    Used by PLD to rollback rejected speculative tokens.
+    """
+    cur_len = kv_cache_length(past_kv)
+    if cur_len <= target_len:
+        return past_kv
+
+    n = _n_layers(past_kv)
+    keys: List[torch.Tensor] = []
+    vals: List[torch.Tensor] = []
+    for i in range(n):
+        k, v = _get_kv(past_kv, i)
+        keys.append(k[:, :, :target_len, :])
+        vals.append(v[:, :, :target_len, :])
+
+    new_cache = _build(past_kv, keys, vals)
+    if _HAS_DYNAMIC_CACHE and hasattr(new_cache, "_seen_tokens"):
+        new_cache._seen_tokens = target_len
+    return new_cache
+
+
 # ── YOCO – You Only Cache Once ───────────────────────────────────────────────
 
 def apply_yoco(past_kv, split_idx: int):

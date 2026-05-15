@@ -1,0 +1,119 @@
+{
+  "model": "EleutherAI/pythia-70m",
+  "device": "cuda",
+  "ppl_tokens": 100000,
+  "speed_ctx": 4096,
+  "status": "done",
+  "ppl": {
+    "Baseline": 38.422,
+    "StreamingLLM(W=128)": 259.998,
+    "StreamingLLM(W=256)": 282.919,
+    "StreamingLLM(W=512)": 264.703,
+    "CLE-Medium(-50%KV)": 38.422,
+    "CLE-Heavy(-70%KV)": 38.422,
+    "YOCO(split=4,-33%KV)": 60.194,
+    "YOCO(split=5,-17%KV)": 48.066
+  },
+  "speed": {
+    "Baseline": {
+      "ttft_ms": 76.055,
+      "tpot_ms": 6.245,
+      "throughput": 136.65,
+      "kv_mb": 97.5,
+      "total_gflops": 366.5288,
+      "avg_gflops_per_tok": 0.088087,
+      "num_gen": 65,
+      "acc_rate": null
+    },
+    "StreamingLLM(W=128)": {
+      "ttft_ms": 73.074,
+      "tpot_ms": 4.795,
+      "throughput": 194.76,
+      "kv_mb": 3.094,
+      "total_gflops": 368.6514,
+      "avg_gflops_per_tok": 0.085813,
+      "num_gen": 200,
+      "acc_rate": null
+    },
+    "StreamingLLM(W=256)": {
+      "ttft_ms": 74.558,
+      "tpot_ms": 4.184,
+      "throughput": 220.48,
+      "kv_mb": 6.094,
+      "total_gflops": 368.966,
+      "avg_gflops_per_tok": 0.085886,
+      "num_gen": 200,
+      "acc_rate": null
+    },
+    "StreamingLLM(W=512)": {
+      "ttft_ms": 74.993,
+      "tpot_ms": 4.572,
+      "throughput": 204.0,
+      "kv_mb": 12.094,
+      "total_gflops": 369.5951,
+      "avg_gflops_per_tok": 0.086032,
+      "num_gen": 200,
+      "acc_rate": null
+    },
+    "CLE-Medium(-50%KV)": {
+      "ttft_ms": 75.297,
+      "tpot_ms": 4.333,
+      "throughput": 213.31,
+      "kv_mb": 52.664,
+      "total_gflops": 373.6072,
+      "avg_gflops_per_tok": 0.086966,
+      "num_gen": 200,
+      "acc_rate": null
+    },
+    "CLE-Heavy(-70%KV)": {
+      "ttft_ms": 72.156,
+      "tpot_ms": 4.344,
+      "throughput": 214.97,
+      "kv_mb": 33.445,
+      "total_gflops": 371.5919,
+      "avg_gflops_per_tok": 0.086497,
+      "num_gen": 200,
+      "acc_rate": null
+    },
+    "PLD(K=5)": {
+      "ttft_ms": 233.47,
+      "tpot_ms": 336.984,
+      "throughput": 2.99,
+      "kv_mb": 97.5,
+      "total_gflops": 366.5288,
+      "avg_gflops_per_tok": 0.088087,
+      "num_gen": 65,
+      "acc_rate": 0.0749
+    },
+    "PLD(K=10)": {
+      "ttft_ms": 237.696,
+      "tpot_ms": 335.871,
+      "throughput": 2.99,
+      "kv_mb": 97.5,
+      "total_gflops": 366.5288,
+      "avg_gflops_per_tok": 0.088087,
+      "num_gen": 65,
+      "acc_rate": 0.0409
+    },
+    "YOCO(split=4,-33%KV)": {
+      "ttft_ms": 74.021,
+      "tpot_ms": 6.976,
+      "throughput": 130.18,
+      "kv_mb": 65.469,
+      "total_gflops": 369.2009,
+      "avg_gflops_per_tok": 0.088094,
+      "num_gen": 95,
+      "acc_rate": null
+    },
+    "YOCO(split=5,-17%KV)": {
+      "ttft_ms": 73.806,
+      "tpot_ms": 6.994,
+      "throughput": 130.27,
+      "kv_mb": 81.895,
+      "total_gflops": 369.4687,
+      "avg_gflops_per_tok": 0.088095,
+      "num_gen": 98,
+      "acc_rate": null
+    }
+  }
+}

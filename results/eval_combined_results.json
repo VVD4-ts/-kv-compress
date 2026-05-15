@@ -1,0 +1,159 @@
+{
+  "baseline": {
+    "Baseline": {
+      "ppl": 38.422,
+      "speed": {
+        "ttft_ms": 76.055,
+        "tpot_ms": 6.245,
+        "throughput": 136.65,
+        "kv_mb": 97.5,
+        "total_gflops": 366.5288,
+        "avg_gflops_per_tok": 0.088087,
+        "num_gen": 65,
+        "acc_rate": null
+      }
+    },
+    "StreamingLLM(W=128)": {
+      "ppl": 259.998,
+      "speed": {
+        "ttft_ms": 73.074,
+        "tpot_ms": 4.795,
+        "throughput": 194.76,
+        "kv_mb": 3.094,
+        "total_gflops": 368.6514,
+        "avg_gflops_per_tok": 0.085813,
+        "num_gen": 200,
+        "acc_rate": null
+      }
+    },
+    "StreamingLLM(W=256)": {
+      "ppl": 282.919,
+      "speed": {
+        "ttft_ms": 74.558,
+        "tpot_ms": 4.184,
+        "throughput": 220.48,
+        "kv_mb": 6.094,
+        "total_gflops": 368.966,
+        "avg_gflops_per_tok": 0.085886,
+        "num_gen": 200,
+        "acc_rate": null
+      }
+    },
+    "StreamingLLM(W=512)": {
+      "ppl": 264.703,
+      "speed": {
+        "ttft_ms": 74.993,
+        "tpot_ms": 4.572,
+        "throughput": 204.0,
+        "kv_mb": 12.094,
+        "total_gflops": 369.5951,
+        "avg_gflops_per_tok": 0.086032,
+        "num_gen": 200,
+        "acc_rate": null
+      }
+    },
+    "CLE-Medium(-50%KV)": {
+      "ppl": 38.422,
+      "speed": {
+        "ttft_ms": 75.297,
+        "tpot_ms": 4.333,
+        "throughput": 213.31,
+        "kv_mb": 52.664,
+        "total_gflops": 373.6072,
+        "avg_gflops_per_tok": 0.086966,
+        "num_gen": 200,
+        "acc_rate": null
+      }
+    },
+    "CLE-Heavy(-70%KV)": {
+      "ppl": 38.422,
+      "speed": {
+        "ttft_ms": 72.156,
+        "tpot_ms": 4.344,
+        "throughput": 214.97,
+        "kv_mb": 33.445,
+        "total_gflops": 371.5919,
+        "avg_gflops_per_tok": 0.086497,
+        "num_gen": 200,
+        "acc_rate": null
+      }
+    },
+    "YOCO(split=4,-33%KV)": {
+      "ppl": 60.194,
+      "speed": {
+        "ttft_ms": 74.021,
+        "tpot_ms": 6.976,
+        "throughput": 130.18,
+        "kv_mb": 65.469,
+        "total_gflops": 369.2009,
+        "avg_gflops_per_tok": 0.088094,
+        "num_gen": 95,
+        "acc_rate": null
+      }
+    },
+    "YOCO(split=5,-17%KV)": {
+      "ppl": 48.066,
+      "speed": {
+        "ttft_ms": 73.806,
+        "tpot_ms": 6.994,
+        "throughput": 130.27,
+        "kv_mb": 81.895,
+        "total_gflops": 369.4687,
+        "avg_gflops_per_tok": 0.088095,
+        "num_gen": 98,
+        "acc_rate": null
+      }
+    },
+    "CLE-Hvy+Stream(W=64)": {
+      "ppl": 232.691,
+      "speed": {
+        "ttft_ms": 75.033,
+        "tpot_ms": 4.327,
+        "throughput": 215.07,
+        "kv_mb": 30.281,
+        "total_gflops": 371.7492,
+        "avg_gflops_per_tok": 0.086534,
+        "num_gen": 200
+      }
+    },
+    "CLE-Med+Stream(W=128)": {
+      "ppl": 259.998,
+      "speed": {
+        "ttft_ms": 75.35,
+        "tpot_ms": 4.343,
+        "throughput": 212.87,
+        "kv_mb": 51.0,
+        "total_gflops": 373.8529,
+        "avg_gflops_per_tok": 0.087023,
+        "num_gen": 200
+      }
+    }
+  },
+  "combined": {
+    "status": "done",
+    "ppl": {
+      "CLE-Hvy+Stream(W=64)": 232.691,
+      "CLE-Med+Stream(W=128)": 259.998
+    },
+    "speed": {
+      "CLE-Hvy+Stream(W=64)": {
+        "ttft_ms": 75.033,
+        "tpot_ms": 4.327,
+        "throughput": 215.07,
+        "kv_mb": 30.281,
+        "total_gflops": 371.7492,
+        "avg_gflops_per_tok": 0.086534,
+        "num_gen": 200
+      },
+      "CLE-Med+Stream(W=128)": {
+        "ttft_ms": 75.35,
+        "tpot_ms": 4.343,
+        "throughput": 212.87,
+        "kv_mb": 51.0,
+        "total_gflops": 373.8529,
+        "avg_gflops_per_tok": 0.087023,
+        "num_gen": 200
+      }
+    }
+  }
+}
