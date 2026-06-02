@@ -190,3 +190,14 @@ def apply_sim_layer_kv(past_kv, lazy_layers: set):
         vals.append(v)
 
     return _build(past_kv, keys, vals)
+
+
+# ── Cache length ──────────────────────────────────────────────────────────────
+
+def kv_cache_length(past_kv) -> int:
+    """Return the current sequence length stored in the KV cache."""
+    if past_kv is None:
+        return 0
+    if hasattr(past_kv, "get_seq_length"):
+        return past_kv.get_seq_length()
+    return _get_kv(past_kv, 0)[0].shape[-2]
