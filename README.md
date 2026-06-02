@@ -145,6 +145,10 @@ kv-compress/
 
 ## Quick Start
 
+> **No training required.** CLE operates entirely at inference time — it scores
+> and evicts KV-cache entries after the standard prefill forward pass. The
+> pre-trained Pythia-70M weights are downloaded automatically from HuggingFace.
+
 ```bash
 # 1. Install dependencies
 pip install -r requirements.txt
@@ -157,19 +161,38 @@ python scripts/run_all.py --skip-sweep --skip-plots   # benchmark + PPL only
 python scripts/seq_len_sweep.py --device cuda          # context-length sweep
 python scripts/plot_results.py --out-dir results       # regenerate figures
 
-# 4. Optional flags
+# 4. Use CLE directly in your own code:
+from src.cross_layer_evict import cle_generate
+result = cle_generate(
+    model, tokenizer, prompt,
+    budget_ratio=0.5,   # keep 50 % of prompt KV tokens
+    n_sink=4,           # always retain first 4 attention-sink tokens
+    max_new_tokens=128,
+    device="cuda",
+)
+
+# 5. Optional flags
 python scripts/run_all.py --model EleutherAI/pythia-160m --device cuda
 python scripts/run_all.py --ppl-max-tokens 8192 --n-runs 5
 ```
 
+### `cle_generate` parameters
+
+| Parameter | Default | Description |
+|-----------|---------|-------------|
+| `budget_ratio` | `0.5` | Fraction of prompt tokens to keep after eviction |
+| `n_sink` | `4` | Number of leading tokens always kept (attention sinks) |
+| `max_new_tokens` | `128` | Maximum tokens to generate |
+| `device` | `"cuda"` | Torch device string |
+
 ### Requirements
 
 ```
-torch>=2.0
-transformers>=4.40
-datasets
-matplotlib
-numpy
+torch>=2.1
+transformers>=4.38
+datasets>=2.18
+numpy>=1.24
+matplotlib>=3.7
 ```
 
 ---
