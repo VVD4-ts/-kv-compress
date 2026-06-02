@@ -164,6 +164,7 @@ def cle_generate(
     prompt:        str,
     max_new_tokens: int   = 128,
     budget_ratio:   float = 0.5,
+    n_sink:         int   = 4,
     device:         str   = "cuda",
 ) -> GenerationResult:
     """
@@ -173,6 +174,12 @@ def cle_generate(
     in the KV cache of every layer, selected by aggregated cross-layer
     attention scores.  Decode tokens are always appended (never evicted).
 
+    Sink tokens (first n_sink positions) are always kept regardless of their
+    importance score — their importance is set to inf before top-k selection.
+    This follows the attention-sink observation (Xiao et al., 2023): the
+    first few tokens accumulate disproportionate attention and must be
+    retained to prevent catastrophic quality loss.
+
     position_ids are tracked manually so RoPE embeddings remain correct
     even after the KV cache is pruned.
     """
@@ -180,7 +187,7 @@ def cle_generate(
     prompt_len = input_ids.shape[1]
     eos_id     = tokenizer.eos_token_id
 
-    budget = max(1, int(prompt_len * budget_ratio))
+    budget = max(n_sink + 1, int(prompt_len * budget_ratio))
 
     total_timer = WallTimer().start()
 
@@ -189,8 +196,9 @@ def cle_generate(
     out     = model(input_ids, use_cache=True)
     past_kv = out.past_key_values
 
-    # Cross-layer key-norm importance → keep top-budget positions
-    importance   = compute_cross_layer_importance(past_kv)
+    # Cross-layer key-norm importance → force-keep sink tokens, then top-budget
+    importance = compute_cross_layer_importance(past_kv)
+    importance[:n_sink] = float("inf")           # sink tokens always survive
     keep_indices = importance.topk(budget).indices.sort().values   # sorted positions
     past_kv      = evict_kv_cache(past_kv, keep_indices)
 
